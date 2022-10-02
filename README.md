@@ -5,8 +5,9 @@
 ## 진행
 
 - 시간 : 매주 일요일 오후 4시
-- 장소 : [이수역 근처 스터디 카페](https://map.naver.com/v5/search/%EC%9D%B4%EC%88%98%EC%97%AD%20%EA%B7%BC%EC%B2%98%20%EC%8A%A4%ED%84%B0%EB%94%94%EC%B9%B4%ED%8E%98/place/1014130313?placePath=%3Fentry=pll%26from=nx%26fromNxList=true&c=14134444.4232058,4506926.1336991,15,0,0,0,dh)
+- 장소 : 사당역 근처 스터디 카페
 - 진행 : 매주 한명씩 발표
+  - 발표 순서 : Tony -> 상민 -> 민지 -> 생각하는 라이언
 
 ## 규칙
 
