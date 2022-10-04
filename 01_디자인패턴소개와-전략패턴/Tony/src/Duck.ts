@@ -12,8 +12,42 @@ class Duck {
   }
 }
 
-interface Flyable {
+interface FlyBehavior {
   fly(): void;
+}
+
+class FlyWithWings implements FlyBehavior {
+  fly() {
+    console.log("날개로 날아갑니다.");
+  }
+}
+
+class FlyNoWay implements FlyBehavior {
+  fly() {
+    console.log("날지 못합니다.");
+  }
+}
+
+interface QuackBehavior {
+  quack(): void;
+}
+
+class Quack implements QuackBehavior {
+  quack() {
+    console.log("꽥꽥");
+  }
+}
+
+class Squeak implements QuackBehavior {
+  quack() {
+    console.log("삑삑");
+  }
+}
+
+class MuteQuack implements QuackBehavior {
+  quack() {
+    console.log("소리를 내지 않습니다.");
+  }
 }
 
 class MallardDuck extends Duck {
