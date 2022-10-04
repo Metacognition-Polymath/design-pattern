@@ -43,4 +43,16 @@ class RubberDuck extends Duck {
   display() {
     console.log("고무 오리");
   }
+  fly() {}
+}
+
+class DecoyDuck extends Duck {
+  constructor() {
+    super();
+  }
+  quack() {}
+  display() {
+    console.log("가짜 오리");
+  }
+  fly() {}
 }
