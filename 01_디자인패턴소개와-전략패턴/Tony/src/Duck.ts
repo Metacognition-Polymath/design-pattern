@@ -10,9 +10,10 @@ class Duck {
   display() {
     console.log("오리");
   }
-  fly() {
-    console.log("날다");
-  }
+}
+
+interface Flyable {
+  fly(): void;
 }
 
 class MallardDuck extends Duck {
