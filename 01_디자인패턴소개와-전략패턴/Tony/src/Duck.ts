@@ -1,8 +1,14 @@
-class Duck {
+abstract class Duck {
+  public flyBehavior: FlyBehavior;
+  public quackBehavior: QuackBehavior;
   constructor() {}
 
-  quack() {
-    console.log("꽥꽥");
+  performFly() {
+    this.flyBehavior.fly();
+  }
+  performQuack() {
+    // 꽥꽥거리는 행동을 위임
+    this.quackBehavior.quack();
   }
   swim() {
     console.log("수영");
@@ -53,6 +59,8 @@ class MuteQuack implements QuackBehavior {
 class MallardDuck extends Duck {
   constructor() {
     super();
+    this.flyBehavior = new FlyWithWings();
+    this.quackBehavior = new Quack();
   }
   display() {
     console.log("청둥 오리");
