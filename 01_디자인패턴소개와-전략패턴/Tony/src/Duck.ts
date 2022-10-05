@@ -1,6 +1,9 @@
+import { FlyBehavior, FlyNoWay, FlyWithWings } from "./Fly";
+import { MuteQuack, Quack, QuackBehavior, Squeak } from "./Quack";
+
 abstract class Duck {
-  public flyBehavior: FlyBehavior;
-  public quackBehavior: QuackBehavior;
+  public flyBehavior: FlyBehavior; // 날아다니는 행동과
+  public quackBehavior: QuackBehavior; // 꽥꽥 거리는 행동의 종류와 상관없이 동일한 인터페이스, 메서드를 사용
   constructor() {}
 
   performFly() {
@@ -18,70 +21,41 @@ abstract class Duck {
   }
 }
 
-interface FlyBehavior {
-  fly(): void;
-}
-
-class FlyWithWings implements FlyBehavior {
-  fly() {
-    console.log("날개로 날아갑니다.");
-  }
-}
-
-class FlyNoWay implements FlyBehavior {
-  fly() {
-    console.log("날지 못합니다.");
-  }
-}
-
-interface QuackBehavior {
-  quack(): void;
-}
-
-class Quack implements QuackBehavior {
-  quack() {
-    console.log("꽥꽥");
-  }
-}
-
-class Squeak implements QuackBehavior {
-  quack() {
-    console.log("삑삑");
-  }
-}
-
-class MuteQuack implements QuackBehavior {
-  quack() {
-    console.log("소리를 내지 않습니다.");
-  }
-}
-
 class MallardDuck extends Duck {
   constructor() {
     super();
-    this.flyBehavior = new FlyWithWings();
-    this.quackBehavior = new Quack();
+    this.flyBehavior = new FlyWithWings(); // FlyBehavior의 한 종류
+    this.quackBehavior = new Quack(); // QuackBehavior의 한 종류
   }
   display() {
     console.log("청둥 오리");
   }
 }
 
+/**
+ * 날 수 있음
+ * 꽥꽥 소리를 냄
+ */
 class RedheadDuck extends Duck {
   constructor() {
     super();
+    this.flyBehavior = new FlyWithWings();
+    this.quackBehavior = new Quack();
   }
   display() {
     console.log("붉은 머리 오리");
   }
 }
 
+/**
+ * 날 수 없음
+ * 삑삑 소리를 냄
+ */
 class RubberDuck extends Duck {
   constructor() {
     super();
-  }
-  quack() {
-    console.log("삑삑");
+    this.flyBehavior = new FlyNoWay();
+    this.quackBehavior = new Squeak();
   }
   display() {
     console.log("고무 오리");
@@ -89,13 +63,17 @@ class RubberDuck extends Duck {
   fly() {}
 }
 
+/**
+ * 날 수 없음
+ * 소리를 내지 않음
+ */
 class DecoyDuck extends Duck {
   constructor() {
     super();
+    this.flyBehavior = new FlyNoWay();
+    this.quackBehavior = new MuteQuack();
   }
-  quack() {}
   display() {
     console.log("가짜 오리");
   }
-  fly() {}
 }
