@@ -22,6 +22,13 @@ export abstract class Duck {
   display() {
     console.log("오리");
   }
+
+  setFlyBehavior(fb: FlyBehavior) {
+    this.flyBehavior = fb;
+  }
+  setQuackBehavior(qb: QuackBehavior) {
+    this.quackBehavior = qb;
+  }
 }
 
 export class MallardDuck extends Duck {
@@ -78,5 +85,16 @@ export class DecoyDuck extends Duck {
   }
   display() {
     console.log("가짜 오리");
+  }
+}
+
+export class ModelDuck extends Duck {
+  constructor() {
+    super();
+    this.flyBehavior = new FlyNoWay(); // 날지 못하는 것에서 시작
+    this.quackBehavior = new Quack();
+  }
+  display() {
+    console.log("모형 오리");
   }
 }

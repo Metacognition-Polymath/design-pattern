@@ -15,3 +15,10 @@ export class FlyNoWay implements FlyBehavior {
     console.log("날지 못합니다.");
   }
 }
+
+export class FlyRocketPowered implements FlyBehavior {
+  constructor() {}
+  fly() {
+    console.log("로켓 추진으로 날아갑니다.");
+  }
+}
