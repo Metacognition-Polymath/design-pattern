@@ -1,10 +1,13 @@
 import { FlyBehavior, FlyNoWay, FlyWithWings } from "./Fly";
 import { MuteQuack, Quack, QuackBehavior, Squeak } from "./Quack";
 
-abstract class Duck {
+export abstract class Duck {
   public flyBehavior: FlyBehavior; // 날아다니는 행동과
   public quackBehavior: QuackBehavior; // 꽥꽥 거리는 행동의 종류와 상관없이 동일한 인터페이스, 메서드를 사용
-  constructor() {}
+  constructor() {
+    this.flyBehavior = new FlyNoWay(); // TS에서는 생성자에서 초기화를 해줘야 함
+    this.quackBehavior = new MuteQuack(); // TS에서는 생성자에서 초기화를 해줘야 함
+  }
 
   performFly() {
     this.flyBehavior.fly();
@@ -21,7 +24,7 @@ abstract class Duck {
   }
 }
 
-class MallardDuck extends Duck {
+export class MallardDuck extends Duck {
   constructor() {
     super();
     this.flyBehavior = new FlyWithWings(); // FlyBehavior의 한 종류
@@ -36,7 +39,7 @@ class MallardDuck extends Duck {
  * 날 수 있음
  * 꽥꽥 소리를 냄
  */
-class RedheadDuck extends Duck {
+export class RedheadDuck extends Duck {
   constructor() {
     super();
     this.flyBehavior = new FlyWithWings();
@@ -51,7 +54,7 @@ class RedheadDuck extends Duck {
  * 날 수 없음
  * 삑삑 소리를 냄
  */
-class RubberDuck extends Duck {
+export class RubberDuck extends Duck {
   constructor() {
     super();
     this.flyBehavior = new FlyNoWay();
@@ -67,7 +70,7 @@ class RubberDuck extends Duck {
  * 날 수 없음
  * 소리를 내지 않음
  */
-class DecoyDuck extends Duck {
+export class DecoyDuck extends Duck {
   constructor() {
     super();
     this.flyBehavior = new FlyNoWay();
