@@ -194,3 +194,24 @@
 
 - `알고리즘군`을 `정의`하고 `캡슐화`해서 각각의 알고리즘군을 `수정해서 쓸 수 있게` 해줍니다
 - 전략 패턴을 사용하면 `클라이언트로부터 알고리즘을 분리`해서 `독립적으로 변경`할 수 있습니다
+
+## 디자인 퍼즐
+
+- 상속 : =>
+- 인터페이스 : ~>
+- `A에는 B가 있다` 관계 : ->
+
+- WeaponBehavior
+
+  - (=>)~> AxeBehavior
+  - (=>)~> SwordBehavior
+  - (=>)~> KnifeBehavior
+  - (=>)~> BowAndArrowBehavior
+
+- Character
+  - => Queen
+  - => King
+  - => Troll
+  - => Knight
+  - -> setWeapon
+    - ~~ ~> WeaponBehavior~~
