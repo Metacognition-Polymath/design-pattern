@@ -85,3 +85,27 @@ class WeatherData {
     - 새로운 디스플레이 항목이 추가될 때마다 코드를 변경해야 함
     - 실행 중에 디스플레이 항목을 추가하거나 제거할 수 없음
     - 바뀌는 부분을 캡슐화하지 않음
+
+## 원칙적으로 추가 코드 살펴보기
+
+```ts
+class WeatherData {
+  // ...
+
+  measurementsChanged() {
+    const temp = this.getTemperature();
+    const humidity = this.getHumidity();
+    const pressure = this.getPressure();
+
+    // 구체적인 구현에 맞춰서 코딩했으므로 디스플레이 항목을 추가하거나 제거할 수 없음
+    this.conditionDisplay.update(temp, humidity, pressure); // 바뀔 수 있는 부분 => 캡슐화 필요
+    this.statisticsDisplay.update(temp, humidity, pressure); // 바뀔 수 있는 부분 => 캡슐화 필요
+    this.forecastDisplay.update(temp, humidity, pressure); // 바뀔 수 있는 부분 => 캡슐화 필요
+  }
+}
+```
+
+- 실행 중에 디스플레이를 더하거나 빼려면 어떻게 해야 할까요?
+- update() 메소드를 공통적으로 가지고 있는 것으로 봐서 공통된 인터페이스를 사용하고 있는 것 같네요
+
+- 2장 제목인 옵저버 패턴을 먼저 알아본 다음 모니터링 애플리케이션에 적용해봅시다 !
