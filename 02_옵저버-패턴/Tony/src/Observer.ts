@@ -6,15 +6,17 @@ export abstract class Display implements Observer, DisplayElement {
   protected weatherData: WeatherData;
   protected temperature: number = 0;
   protected humidity: number = 0;
+  protected pressure: number = 0;
 
   constructor(weatherData: WeatherData) {
     this.weatherData = weatherData;
     weatherData.registerObserver(this);
   }
 
-  update(temperature: number, humidity: number, pressure: number) {
-    this.temperature = temperature;
-    this.humidity = humidity;
+  update() {
+    this.temperature = this.weatherData.getTemperature();
+    this.humidity = this.weatherData.getHumidity();
+    this.pressure = this.weatherData.getPressure();
     this.display();
   }
 
@@ -56,6 +58,7 @@ export class ForecastDisplay extends Display {
   constructor(weatherData: WeatherData) {
     super(weatherData);
   }
+  // TODO : 날씨 예보 로직 구현
   display() {
     console.log(
       `Forecast: Improving weather on the way! ${this.temperature}F degrees and ${this.humidity}% humidity`

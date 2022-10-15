@@ -50,4 +50,15 @@ export class WeatherData implements Subject {
   }
 
   // 기타 WeatherData의 메소드
+  getTemperature(): number {
+    return this.temperature;
+  }
+
+  getHumidity(): number {
+    return this.humidity;
+  }
+
+  getPressure(): number {
+    return this.pressure;
+  }
 }
