@@ -319,3 +319,7 @@ class ConcreteObserver implements Observer {
 ### 주제에서 알림 보내기
 
 - Observer의 update메서드 파라미터를 없애고 weatherData의 게터를 이용해서 가져옴
+
+## 코드 자석
+
+## 업데이트한 기상 스테이션 코드 테스트

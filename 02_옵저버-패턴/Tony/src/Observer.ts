@@ -55,13 +55,35 @@ export class StatisticsDisplay extends Display {
 }
 
 export class ForecastDisplay extends Display {
+  private currentPressure = 29.92;
+  private lastPressure: number = 0;
+  private forecast: string = "";
+
   constructor(weatherData: WeatherData) {
     super(weatherData);
   }
-  // TODO : 날씨 예보 로직 구현
+
+  setForecast() {
+    if (this.currentPressure > this.lastPressure) {
+      this.forecast = "Improving weather on the way!";
+    } else if (this.currentPressure === this.lastPressure) {
+      this.forecast = "More of the same";
+    } else if (this.currentPressure < this.lastPressure) {
+      this.forecast = "Watch out for cooler weather";
+    }
+  }
+
+  update() {
+    this.humidity = this.weatherData.getHumidity();
+    this.currentPressure = this.weatherData.getPressure();
+    this.setForecast();
+    this.display();
+    this.lastPressure = this.currentPressure;
+  }
+
   display() {
     console.log(
-      `Forecast: Improving weather on the way! ${this.temperature}F degrees and ${this.humidity}% humidity`
+      `Forecast: ${this.forecast} ${this.currentPressure}F degrees and ${this.humidity}% humidity\n`
     );
   }
 }
