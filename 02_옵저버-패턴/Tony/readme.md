@@ -268,3 +268,7 @@ class ConcreteObserver implements Observer {
 ## 기상 스테이션 설계하기
 
 ## 기상 스테이션 구현하기
+
+## 디스플레이 요소 구현하기
+
+## 기상 스테이션 테스트

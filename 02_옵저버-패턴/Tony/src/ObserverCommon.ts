@@ -11,7 +11,7 @@ export interface Observer {
  */
 export interface Subject {
   /**
-   * Observer를 인자로 받아서 각각 옵저버를 제거하는 역할을 함
+   * Observer를 인자로 받아서 각각 옵저버를 등록하는 역할을 함
    */
   registerObserver(o: Observer): void;
   /**

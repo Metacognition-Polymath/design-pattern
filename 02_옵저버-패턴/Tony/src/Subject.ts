@@ -1,13 +1,14 @@
 import { Observer, Subject } from "./ObserverCommon";
+import { WeatherDataStore } from "./store";
 
 /**
  * 지면의 한계로 인해 패키지 등 생략
  */
-class WeatherData implements Subject {
+export class WeatherData implements Subject {
   private observers: Observer[];
-  private temperature: number;
-  private humidity: number;
-  private pressure: number;
+  private temperature: number = 0;
+  private humidity: number = 0;
+  private pressure: number = 0;
 
   constructor() {
     this.observers = [];
@@ -42,6 +43,9 @@ class WeatherData implements Subject {
     this.temperature = temperature;
     this.humidity = humidity;
     this.pressure = pressure;
+    WeatherDataStore.addTemperature(temperature);
+    WeatherDataStore.addHumidity(humidity);
+    WeatherDataStore.addPressure(pressure);
     this.measurementsChanged();
   }
 
