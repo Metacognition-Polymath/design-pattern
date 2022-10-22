@@ -316,3 +316,26 @@ class Milk extends CondimentDecorator {
   - 하지만 방법은 있다
   - 마지막에 description을 parsing해서 description을 바꿔주는 데코레이터를 만들면 된다
     - getDescription()에서 ArrayList를 리턴하도록 하면 더 쉽게 작업할 수 있다
+
+## 쓰면서 제대로 공부하기
+
+- 스타버즈 커피는 톨(소), 그란데(중), 벤티(대) 사이즈 개념을 도입하기로 했습니다
+- Beverage 클래스에 setSize()와 getSize()라는 2개의 메소드를 추가했습니다
+- 그리고 사이즈에 따라 첨가물 가격도 다르게 받을 계획입니다
+- 이런 변경사항을 처리하려면 데코레이터 클래스를 어떻게 고쳐야 할까요?
+  - 나) 음료를 구현한 클래스에서 사이즈별 가격을 계산해줘서 리턴해줘야 될 것 같다
+    - 어차피 첨가물 가격은 사이즈와 상관없다고 가정하고
+    - 사이즈는 음료에만 영향을 준다고 생각하면 기존 음료를 구상한 클래스들에 사이즈 계산식을 포함시키면 될 것 같다
+
+```
+# 결과
+## House Blend 톨사이즈
+Espresso $1.99
+Dark Roast Coffee, Mocha, Mocha, Whip $1.49
+House Blend Coffee, Soy, Mocha, Whip $1.34
+
+## House Blend 벤티사이즈
+Espresso $1.99
+Dark Roast Coffee, Mocha, Mocha, Whip $1.49
+House Blend Coffee, Soy, Mocha, Whip $1.56
+```

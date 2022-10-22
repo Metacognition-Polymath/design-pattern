@@ -4,6 +4,7 @@ import {
   Espresso,
   HouseBlend,
   Mocha,
+  Size,
   Soy,
   Whip,
 } from "./BeverageRefactoring";
@@ -31,7 +32,8 @@ console.log(
 // beverage3 = new Mocha(beverage3);
 // beverage3 = new Whip(beverage3);
 // console.log(beverage3.getDescription() + " $" + beverage3.cost());
-const houseBlend: Beverage = new HouseBlend();
+const houseBlend = new HouseBlend();
+// houseBlend.setSize(Size.VENTI);
 const houseBlendWithSoy = new Soy(houseBlend);
 const houseBlendWithSoyAndMocha = new Mocha(houseBlendWithSoy);
 const houseBlendWithSoyAndMochaAndWhip = new Whip(houseBlendWithSoyAndMocha);
