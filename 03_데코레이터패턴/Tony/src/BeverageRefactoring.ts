@@ -1,4 +1,4 @@
-abstract class Beverage {
+export abstract class Beverage {
   description: string = "Unknown Beverage";
 
   getDescription(): string {
@@ -18,7 +18,7 @@ abstract class CondimentDecorator extends Beverage {
 }
 
 // 음료
-class Espresso extends Beverage {
+export class Espresso extends Beverage {
   constructor() {
     super();
     this.description = "Espresso";
@@ -28,7 +28,7 @@ class Espresso extends Beverage {
   }
 }
 
-class HouseBlend extends Beverage {
+export class HouseBlend extends Beverage {
   constructor() {
     super();
     this.description = "House Blend Coffee";
@@ -38,8 +38,18 @@ class HouseBlend extends Beverage {
   }
 }
 
+export class DarkRoast extends Beverage {
+  constructor() {
+    super();
+    this.description = "Dark Roast Coffee";
+  }
+  cost(): number {
+    return 0.99;
+  }
+}
+
 // 첨가물
-class Mocha extends CondimentDecorator {
+export class Mocha extends CondimentDecorator {
   constructor(beverage: Beverage) {
     super(beverage);
   }
@@ -51,7 +61,7 @@ class Mocha extends CondimentDecorator {
   }
 }
 
-class Soy extends CondimentDecorator {
+export class Soy extends CondimentDecorator {
   constructor(beverage: Beverage) {
     super(beverage);
   }
@@ -63,7 +73,7 @@ class Soy extends CondimentDecorator {
   }
 }
 
-class Whip extends CondimentDecorator {
+export class Whip extends CondimentDecorator {
   constructor(beverage: Beverage) {
     super(beverage);
   }
