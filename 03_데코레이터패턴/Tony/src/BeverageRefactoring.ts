@@ -16,3 +16,24 @@ abstract class CondimentDecorator extends Beverage {
   }
   abstract getDescription(): string;
 }
+
+// 음료
+class Espresso extends Beverage {
+  constructor() {
+    super();
+    this.description = "Espresso";
+  }
+  cost(): number {
+    return 1.99;
+  }
+}
+
+class HouseBlend extends Beverage {
+  constructor() {
+    super();
+    this.description = "House Blend Coffee";
+  }
+  cost(): number {
+    return 0.89;
+  }
+}
