@@ -5,16 +5,7 @@ export enum Size {
 }
 
 export abstract class Beverage {
-  description: string = "Unknown Beverage";
-
-  getDescription(): string {
-    return this.description;
-  }
-
-  abstract cost(): number;
-}
-
-abstract class CommonBeverage extends Beverage {
+  protected description: string = "Unknown Beverage";
   protected size: Size = Size.TALL;
 
   setSize(size: Size): void {
@@ -24,11 +15,15 @@ abstract class CommonBeverage extends Beverage {
     return this.size;
   }
 
-  abstract addSizeCost(size: Size): number;
+  getDescription(): string {
+    return this.description;
+  }
+
+  abstract cost(): number;
 }
 
 // 음료
-export class Espresso extends CommonBeverage {
+export class Espresso extends Beverage {
   constructor() {
     super();
     this.description = "Espresso";
@@ -48,7 +43,7 @@ export class Espresso extends CommonBeverage {
   }
 }
 
-export class HouseBlend extends CommonBeverage {
+export class HouseBlend extends Beverage {
   constructor() {
     super();
     this.description = "House Blend Coffee";
@@ -66,7 +61,7 @@ export class HouseBlend extends CommonBeverage {
   }
 }
 
-export class DarkRoast extends CommonBeverage {
+export class DarkRoast extends Beverage {
   constructor() {
     super();
     this.description = "Dark Roast Coffee";

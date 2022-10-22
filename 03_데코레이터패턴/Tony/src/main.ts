@@ -27,18 +27,19 @@ console.log(
     darkRoastWithMochaDoubleAndWhip.cost()
 );
 
-// let beverage3: Beverage = new HouseBlend();
-// beverage3 = new Soy(beverage3);
-// beverage3 = new Mocha(beverage3);
-// beverage3 = new Whip(beverage3);
-// console.log(beverage3.getDescription() + " $" + beverage3.cost());
-const houseBlend = new HouseBlend();
-// houseBlend.setSize(Size.VENTI);
-const houseBlendWithSoy = new Soy(houseBlend);
-const houseBlendWithSoyAndMocha = new Mocha(houseBlendWithSoy);
-const houseBlendWithSoyAndMochaAndWhip = new Whip(houseBlendWithSoyAndMocha);
-console.log(
-  houseBlendWithSoyAndMochaAndWhip.getDescription() +
-    " $" +
-    houseBlendWithSoyAndMochaAndWhip.cost()
-);
+let beverage3: Beverage = new HouseBlend();
+beverage3.setSize(Size.GRANDE);
+beverage3 = new Soy(beverage3);
+beverage3 = new Mocha(beverage3);
+beverage3 = new Whip(beverage3);
+console.log(beverage3.getDescription() + " $" + beverage3.cost());
+// const houseBlend = new HouseBlend();
+// // houseBlend.setSize(Size.VENTI);
+// const houseBlendWithSoy = new Soy(houseBlend);
+// const houseBlendWithSoyAndMocha = new Mocha(houseBlendWithSoy);
+// const houseBlendWithSoyAndMochaAndWhip = new Whip(houseBlendWithSoyAndMocha);
+// console.log(
+//   houseBlendWithSoyAndMochaAndWhip.getDescription() +
+//     " $" +
+//     houseBlendWithSoyAndMochaAndWhip.cost()
+// );
