@@ -28,7 +28,7 @@ console.log(
 );
 
 let beverage3: Beverage = new HouseBlend();
-beverage3.setSize(Size.GRANDE);
+beverage3.setSize(Size.VENTI);
 beverage3 = new Soy(beverage3);
 beverage3 = new Mocha(beverage3);
 beverage3 = new Whip(beverage3);
