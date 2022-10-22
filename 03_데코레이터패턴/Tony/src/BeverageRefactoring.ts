@@ -37,3 +37,40 @@ class HouseBlend extends Beverage {
     return 0.89;
   }
 }
+
+// 첨가물
+class Mocha extends CondimentDecorator {
+  constructor(beverage: Beverage) {
+    super(beverage);
+  }
+  getDescription(): string {
+    return this.beverage.getDescription() + ", Mocha";
+  }
+  cost(): number {
+    return 0.2 + this.beverage.cost();
+  }
+}
+
+class Soy extends CondimentDecorator {
+  constructor(beverage: Beverage) {
+    super(beverage);
+  }
+  getDescription(): string {
+    return this.beverage.getDescription() + ", Soy";
+  }
+  cost(): number {
+    return 0.15 + this.beverage.cost();
+  }
+}
+
+class Whip extends CondimentDecorator {
+  constructor(beverage: Beverage) {
+    super(beverage);
+  }
+  getDescription(): string {
+    return this.beverage.getDescription() + ", Whip";
+  }
+  cost(): number {
+    return 0.1 + this.beverage.cost();
+  }
+}
