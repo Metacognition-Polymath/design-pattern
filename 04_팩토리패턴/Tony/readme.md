@@ -46,3 +46,66 @@ if (picnic) {
 
 - 첫 번째 디자인 원칙, 바뀌는 부분을 찾아내서 바뀌지 않는 부분과 분리해야 한다
 - 어떻게 하면 애플리케이션에서 구상 클래스의 인스턴스 생성 부분을 전부 찾아내서 애플리케이션의 나머지 부분으로부터 분리(캡슐화)할 수 있을까요?
+
+## 최첨단 피자 코드 만들기
+
+## 피자 코드 추가하기
+
+## 객체 생성 부분 캡슐화하기
+
+## 객체 생성 팩토리 만들기
+
+## 무엇이든 물어보세요
+
+## 클라이언트 코드 수정하기
+
+## '간단한 팩토리'의 정의
+
+## 다양한 팩토리 만들기
+
+## 피자 가게 프레임워크 만들기
+
+- 공통 팩토리 : oderPizza(type: string) 메소드 -> 내부적으로 createPizza(type) 메서드를 사용
+- 각 지점별 팩토리 : abstract createPizza(type: string) 추상 메소드
+  - 여기에서 type에 string을 제한해야되지 않을까 -> 고민해보자
+
+## 서브클래스가 결정하는 것 알아보기
+
+## 피자 스타일 서브클래스 만들기
+
+## 팩토리 메소드 선언하기
+
+## 피자 팩토리 메소드로 피자 주문하기
+
+## 피자가 만들어지기까지
+
+- PizzaStore 인스턴스 확보
+  - 조엘 : ChicagoPizzaStore 인스턴스
+  - 에단 : NYPizzaStore 인스턴스
+- 각 PizzaStore 인스턴스에서 oderPizza를 호출
+  - 이때 oderPizza의 파라미터로 메뉴를 알려줘야 함(치즈피자, 야채피자 등)
+- oderPizza에선 createPizza메소드가 호출 됨
+  - createPizza메소드는 PizzaStore 인스턴스(ChicagoPizzaStore, NYPizzaStore)에 정의되어 있음
+
+## 피자가 만들어지기까지
+
+```ts
+// 1. 에단이 주문한 내역을 따라가 봅시다 우선 NYPizzaStore가 필요합니다
+const nyPizzaStore = new NYPizzaStore();
+
+// 2. 피자 가게가 확보됐으니 이제 주문을 받을 수 있습니다
+nyPizzaStore.orderPizza("cheese");
+
+// 3. orderPizza() 메소드에서 createPizza() 메소드를 호출합니다
+const pizza = createPizza("cheese");
+
+// 4. 아직 준비가 되지 않은 피자를 받았습니다 이제 만드는 작업을 마무리해야겠죠
+pizza.prepare();
+pizza.bake();
+pizza.cut();
+pizza.box();
+```
+
+## Pizza 클래스 만들기
+
+## 최첨단 피자 코드 테스트
