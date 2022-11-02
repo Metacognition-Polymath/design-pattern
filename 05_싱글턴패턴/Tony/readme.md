@@ -64,3 +64,44 @@ public class Singleton {
 
 - 필요한 상황이 닥치기 전까지 인스턴스를 생성하지 않게 됨
   - lazy instantiation
+
+## 패턴 집중 인터뷰
+
+- 싱글턴은 유일하다
+  - 인스턴스가 2개가 되지 않도록 싱글턴 패턴으로 만들어짐
+- 애플리케이션에서 어떤 객체에서도 같은 자원을 사용할 수 있음
+  - e.g.
+    - 레지스트리 설정
+    - 연결 풀, 스레드 풀 같은 자원풀을 관리하는 데도 사용
+- private으로 생성자를 숨겨놓았다
+
+## 초콜릿 보일러 코드 살펴보기
+
+- 초콜릿 보일러 : 초콜릿과 우유를 받아서 끓이고 초코바를 만드는 단계로 넘겨주는 장치
+
+```java
+public class ChocolateBoiler {
+  private static ChocolateBoiler uniqueInstance;
+  public static ChocolateBoiler getInstance() {
+    if (uniqueInstance == null) {
+      uniqueInstance = new ChocolateBoiler();
+    }
+    return uniqueInstance;
+  }
+}
+```
+
+```ts
+class ChocolateBoiler {
+  private static uniqueInstance: ChocolateBoiler;
+  public static getInstance(): ChocolateBoiler {
+    if (!ChocolateBoiler.uniqueInstance) {
+      ChocolateBoiler.uniqueInstance = new ChocolateBoiler();
+    }
+    return ChocolateBoiler.uniqueInstance;
+  }
+}
+```
+
+- javascript(typescript)에선 static 멤버변수에 접근할 때 `클래스명.메서드명` 으로 접근해야 된다
+  - java에선 해당 클래스 안에선 클래스명과 접근 연산자를 붙이지 않고도 접근 가능
