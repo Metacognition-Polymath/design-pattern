@@ -1,17 +1,30 @@
+import {
+  Cheese,
+  Clams,
+  Dough,
+  Pepperoni,
+  PizzaIngredientFactory,
+  Sauce,
+  Veggies,
+} from "./PizzaIngredientFactory";
+
 export abstract class Pizza {
   name: string = "Unknown Pizza";
-  dough: string = "";
-  sauce: string = "";
-  toppings: string[] = [];
 
-  prepare(): void {
-    console.log(`Preparing ${this.name}`);
-    console.log("Tossing dough...");
-    console.log("Adding sauce...");
-    console.log("Adding toppings: ");
-    for (let topping of this.toppings) {
-      console.log(`  ${topping}`);
-    }
+  dough: Dough;
+  sauce: Sauce;
+  veggies: Veggies[];
+  cheese: Cheese;
+  pepperoni: Pepperoni;
+  clams: Clams;
+
+  constructor(ingredientFactory: PizzaIngredientFactory) {
+    this.dough = ingredientFactory.createDough();
+    this.sauce = ingredientFactory.createSauce();
+    this.cheese = ingredientFactory.createCheese();
+    this.veggies = ingredientFactory.createVeggies();
+    this.pepperoni = ingredientFactory.createPepperoni();
+    this.clams = ingredientFactory.createClam();
   }
 
   bake(): void {
@@ -29,64 +42,36 @@ export abstract class Pizza {
   getName(): string {
     return this.name;
   }
-}
 
-// 구상 서브 클래스
-export class NYStyleCheesePizza extends Pizza {
-  constructor() {
-    super();
-    this.name = "NY Style Sauce and Cheese Pizza";
-    this.dough = "Thin Crust Dough";
-    this.sauce = "Marinara Sauce";
-    this.toppings.push("Grated Reggiano Cheese");
+  setName(name: string): void {
+    this.name = name;
   }
 }
 
-export class NYStyleVeggiePizza extends Pizza {
-  constructor() {
-    super();
-    this.name = "NY Style Veggie Pizza";
-    this.dough = "Thin Crust Dough";
-    this.sauce = "Marinara Sauce";
-    this.toppings.push("Grated Reggiano Cheese");
-    this.toppings.push("Garlic");
-    this.toppings.push("Onion");
-    this.toppings.push("Mushrooms");
-    this.toppings.push("Red Pepper");
+export class CheesePizza extends Pizza {
+  constructor(ingredientFactory: PizzaIngredientFactory) {
+    super(ingredientFactory);
+    this.name = "Cheese Pizza";
   }
 }
 
-export class NYStyleClamPizza extends Pizza {
-  constructor() {
-    super();
-    this.name = "NY Style Clam Pizza";
-    this.dough = "Thin Crust Dough";
-    this.sauce = "Marinara Sauce";
-    this.toppings.push("Grated Reggiano Cheese");
-    this.toppings.push("Fresh Clams from Long Island Sound");
+export class ClamPizza extends Pizza {
+  constructor(ingredientFactory: PizzaIngredientFactory) {
+    super(ingredientFactory);
+    this.name = "Clam Pizza";
   }
 }
 
-export class NYStylePepperoniPizza extends Pizza {
-  constructor() {
-    super();
-    this.name = "NY Style Pepperoni Pizza";
-    this.dough = "Thin Crust Dough";
-    this.sauce = "Marinara Sauce";
-    this.toppings.push("Sliced Pepperoni");
+export class PepperoniPizza extends Pizza {
+  constructor(ingredientFactory: PizzaIngredientFactory) {
+    super(ingredientFactory);
+    this.name = "Pepperoni Pizza";
   }
 }
 
-export class ChicagoStyleCheesePizza extends Pizza {
-  constructor() {
-    super();
-    this.name = "Chicago Style Deep Dish Cheese Pizza";
-    this.dough = "Extra Thick Crust Dough";
-    this.sauce = "Plum Tomato Sauce";
-    this.toppings.push("Shredded Mozzarella Cheese");
-  }
-
-  cut(): void {
-    console.log("Cutting the pizza into square slices");
+export class VeggiePizza extends Pizza {
+  constructor(ingredientFactory: PizzaIngredientFactory) {
+    super(ingredientFactory);
+    this.name = "Veggie Pizza";
   }
 }
