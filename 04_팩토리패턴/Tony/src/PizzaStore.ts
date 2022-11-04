@@ -1,10 +1,11 @@
 import {
-  NYStyleCheesePizza,
-  NYStyleClamPizza,
-  NYStylePepperoniPizza,
-  NYStyleVeggiePizza,
+  CheesePizza,
+  ClamPizza,
+  PepperoniPizza,
   Pizza,
+  VeggiePizza,
 } from "./Pizza";
+import { NYPizzaIngredientFactory } from "./PizzaIngredientFactory";
 
 // make pizza store factory
 export abstract class PizzaStore {
@@ -12,8 +13,6 @@ export abstract class PizzaStore {
     let pizza: Pizza;
 
     pizza = this.createPizza(type);
-
-    pizza.prepare();
     pizza.bake();
     pizza.cut();
     pizza.box();
@@ -28,17 +27,22 @@ export abstract class PizzaStore {
 export class NYPizzaStore extends PizzaStore {
   createPizza(type: string): Pizza {
     let pizza: Pizza;
+    const nyIngredientFactory = new NYPizzaIngredientFactory();
 
     if (type === "cheese") {
-      pizza = new NYStyleCheesePizza();
-    } else if (type === "veggie") {
-      pizza = new NYStyleVeggiePizza();
+      pizza = new CheesePizza(nyIngredientFactory);
+      pizza.setName("New York Style Cheese Pizza");
     } else if (type === "clam") {
-      pizza = new NYStyleClamPizza();
+      pizza = new ClamPizza(nyIngredientFactory);
+      pizza.setName("New York Style Clam Pizza");
     } else if (type === "pepperoni") {
-      pizza = new NYStylePepperoniPizza();
+      pizza = new PepperoniPizza(nyIngredientFactory);
+      pizza.setName("New York Style Pepperoni Pizza");
+    } else if (type === "veggie") {
+      pizza = new VeggiePizza(nyIngredientFactory);
+      pizza.setName("New York Style Veggie Pizza");
     } else {
-      throw new Error("Unknown pizza type");
+      throw new Error("No such pizza");
     }
 
     return pizza;
