@@ -138,3 +138,8 @@ class Command {
 
 - Command에 undo() 메소드를 추가하고
 - 각 구현 Command에서 undo를 구현한다
+
+## 여러 동작을 한 번에 처리하기
+
+- 매크로
+- Command[] 상태를 만들고 commands.forEach((command) => command.execute());

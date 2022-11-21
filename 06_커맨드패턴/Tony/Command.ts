@@ -306,3 +306,17 @@ export class HottubJetsOffCommand implements Command {
     this.hottub.jetsOff();
   }
 }
+
+export class MacroCommand implements Command {
+  commands: Command[];
+
+  constructor(commands: Command[]) {
+    this.commands = commands;
+  }
+
+  execute(): void {
+    for (let i = 0; i < this.commands.length; i++) {
+      this.commands[i].execute();
+    }
+  }
+}
