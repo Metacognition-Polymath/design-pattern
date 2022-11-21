@@ -1,8 +1,14 @@
-interface Command {
+export interface Command {
   execute(): void;
 }
 
-class Light {
+export class DummyCommand implements Command {
+  execute(): void {
+    console.log("DummyCommand.execute()");
+  }
+}
+
+export class Light {
   on() {
     console.log("Light On");
   }
@@ -12,7 +18,7 @@ class Light {
 }
 
 // 조명을 켤 때 필요한 커맨드 클래스 구현
-class LightOnCommand implements Command {
+export class LightOnCommand implements Command {
   light: Light; // 리시버
 
   constructor(light: Light) {
