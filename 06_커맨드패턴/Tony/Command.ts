@@ -1,5 +1,6 @@
 export interface Command {
   execute(): void;
+  undo?(): void;
 }
 
 export class DummyCommand implements Command {
@@ -27,6 +28,10 @@ export class LightOnCommand implements Command {
 
   execute(): void {
     this.light.on();
+  }
+
+  undo(): void {
+    this.light.off();
   }
 }
 
