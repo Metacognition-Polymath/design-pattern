@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:state_pattern_dart/gumball_machine.dart';
-import 'package:state_pattern_dart/states/state.dart';
+import '../gumball_machine.dart';
+import 'state.dart';
 
 class HasQuarterState implements State {
   Random randomWinner = Random(DateTime.now().millisecondsSinceEpoch);

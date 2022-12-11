@@ -1,5 +1,5 @@
-import 'package:state_pattern_dart/gumball_machine.dart';
-import 'package:state_pattern_dart/states/state.dart';
+import '../gumball_machine.dart';
+import 'state.dart';
 
 class NoQuarterState implements State {
   NoQuarterState(this.gumballMachine);

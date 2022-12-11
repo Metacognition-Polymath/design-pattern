@@ -1,4 +1,4 @@
-import 'package:without_state_pattern_dart/without_state_pattern_dart.dart';
+import '../lib/without_state_pattern_dart.dart';
 
 void main(List<String> arguments) {
   GumballMachine gumballMachine = GumballMachine(5);

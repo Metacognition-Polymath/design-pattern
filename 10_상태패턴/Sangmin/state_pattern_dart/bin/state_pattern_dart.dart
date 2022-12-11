@@ -1,4 +1,4 @@
-import 'package:state_pattern_dart/gumball_machine.dart';
+import '../lib/gumball_machine.dart';
 
 void main(List<String> arguments) {
   GumBallMachine gumballMachine = GumBallMachine(10);

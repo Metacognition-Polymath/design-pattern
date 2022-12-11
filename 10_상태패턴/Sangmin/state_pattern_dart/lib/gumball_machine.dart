@@ -1,9 +1,9 @@
-import 'package:state_pattern_dart/states/has_quarter_state.dart';
-import 'package:state_pattern_dart/states/no_quarter_state.dart';
-import 'package:state_pattern_dart/states/sold_out_state.dart';
-import 'package:state_pattern_dart/states/sold_state.dart';
-import 'package:state_pattern_dart/states/state.dart';
-import 'package:state_pattern_dart/states/winnder_state.dart';
+import 'states/has_quarter_state.dart';
+import 'states/no_quarter_state.dart';
+import 'states/sold_out_state.dart';
+import 'states/sold_state.dart';
+import 'states/state.dart';
+import 'states/winnder_state.dart';
 
 class GumBallMachine {
   GumBallMachine(this.count) {
