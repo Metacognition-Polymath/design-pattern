@@ -10,8 +10,10 @@ interface State {
 class GumballMachine {
   private state: State;
   private count: number;
+  private location: string;
 
-  constructor(count: number) {
+  constructor(location: string, count: number) {
+    this.location = location;
     this.count = count;
     if (count > 0) {
       this.state = new NoQuarterState(this);
@@ -46,8 +48,16 @@ class GumballMachine {
     this.state.refill();
   }
 
+  getLocation() {
+    return this.location;
+  }
+
   getCount() {
     return this.count;
+  }
+
+  getState() {
+    return this.state;
   }
 
   setState(state: State) {
@@ -235,17 +245,27 @@ class WinnerState implements State {
   refill() {}
 }
 
-// 데모 버전 돌려보기
-const gumballMachine = new GumballMachine(5);
-console.log(gumballMachine);
+class GumballMonitor {
+  private gumballMachine: GumballMachine;
 
-gumballMachine.insertQuarter();
-gumballMachine.turnCrank();
-console.log(gumballMachine);
+  constructor(gumballMachine: GumballMachine) {
+    this.gumballMachine = gumballMachine;
+  }
 
-gumballMachine.insertQuarter();
-gumballMachine.turnCrank();
-gumballMachine.ejectQuarter();
-gumballMachine.turnCrank();
+  report() {
+    console.log(`뽑기 기계 위치: ${this.gumballMachine.getLocation()}`);
+    console.log(`현재 재고: ${this.gumballMachine.getCount()}개`);
+    console.log(`현재 상태: ${this.gumballMachine.getState()}`);
+  }
+}
 
-console.log(gumballMachine);
+// 모니터링 기능 테스트
+
+const count = 5; // 재고
+const _location = "서울"; // 위치
+
+const gumballMachine = new GumballMachine(_location, count);
+
+const monitor = new GumballMonitor(gumballMachine);
+
+monitor.report();
