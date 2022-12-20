@@ -32,10 +32,10 @@ const redheadDuck = new RedheadDuck();
 const duckCall = new DuckCall();
 const rubberDuck = new RubberDuck();
 
-mallardDuck.quack();
-redheadDuck.quack();
-duckCall.quack();
-rubberDuck.quack();
+// mallardDuck.quack();
+// redheadDuck.quack();
+// duckCall.quack();
+// rubberDuck.quack();
 
 // Add goose
 class Goose {
@@ -58,9 +58,9 @@ class GooseAdapter implements Quackable {
 }
 
 // Duck simulator with goose
-const goose = new Goose();
-const gooseDuck = new GooseAdapter(goose);
-gooseDuck.quack();
+// const goose = new Goose();
+// const gooseDuck = new GooseAdapter(goose);
+// gooseDuck.quack();
 
 // decorator
 class QuackCounter implements Quackable {
@@ -88,15 +88,15 @@ const duckCall2 = new QuackCounter(new DuckCall());
 const rubberDuck2 = new QuackCounter(new RubberDuck());
 const gooseDuck2 = new GooseAdapter(new Goose()); // goose is not counted
 
-console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
 
-mallardDuck2.quack();
-redheadDuck2.quack();
-duckCall2.quack();
-rubberDuck2.quack();
-gooseDuck2.quack();
+// mallardDuck2.quack();
+// redheadDuck2.quack();
+// duckCall2.quack();
+// rubberDuck2.quack();
+// gooseDuck2.quack();
 
-console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
 
 // factory
 
@@ -154,12 +154,41 @@ const duckCall3 = duckFactory.createDuckCall();
 const rubberDuck3 = duckFactory.createRubberDuck();
 const gooseDuck3 = new GooseAdapter(new Goose()); // goose is not counted
 
-console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
 
-mallardDuck3.quack();
-redheadDuck3.quack();
-duckCall3.quack();
-rubberDuck3.quack();
-gooseDuck3.quack();
+// mallardDuck3.quack();
+// redheadDuck3.quack();
+// duckCall3.quack();
+// rubberDuck3.quack();
+// gooseDuck3.quack();
+
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+
+// 오리 무리를 관리하는 기능 - Composite 패턴
+class Flock implements Quackable {
+  private quackers: Quackable[] = [];
+
+  add(duck: Quackable) {
+    this.quackers.push(duck);
+  }
+
+  quack() {
+    // this.quackers.forEach((duck) => duck.quack());
+    // console.log("Symbol.iterator", Symbol.iterator);
+    const _iterator = this.quackers[Symbol.iterator]();
+    while (true) {
+      const { value, done } = _iterator.next();
+      if (done) break;
+      value.quack();
+    }
+  }
+}
+
+// Duck simulator with composite
+const flockOfMallards = new Flock();
+flockOfMallards.add(duckFactory.createMallardDuck());
+flockOfMallards.add(duckFactory.createRubberDuck());
+
+flockOfMallards.quack();
 
 console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
