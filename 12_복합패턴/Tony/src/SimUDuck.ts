@@ -27,10 +27,10 @@ class RubberDuck implements Quackable {
 }
 
 // run duck simulator
-const mallardDuck = new MallardDuck();
-const redheadDuck = new RedheadDuck();
-const duckCall = new DuckCall();
-const rubberDuck = new RubberDuck();
+// const mallardDuck = new MallardDuck();
+// const redheadDuck = new RedheadDuck();
+// const duckCall = new DuckCall();
+// const rubberDuck = new RubberDuck();
 
 // mallardDuck.quack();
 // redheadDuck.quack();
@@ -82,11 +82,11 @@ class QuackCounter implements Quackable {
 }
 
 // Duck simulator with decorator
-const mallardDuck2 = new QuackCounter(new MallardDuck());
-const redheadDuck2 = new QuackCounter(new RedheadDuck());
-const duckCall2 = new QuackCounter(new DuckCall());
-const rubberDuck2 = new QuackCounter(new RubberDuck());
-const gooseDuck2 = new GooseAdapter(new Goose()); // goose is not counted
+// const mallardDuck2 = new QuackCounter(new MallardDuck());
+// const redheadDuck2 = new QuackCounter(new RedheadDuck());
+// const duckCall2 = new QuackCounter(new DuckCall());
+// const rubberDuck2 = new QuackCounter(new RubberDuck());
+// const gooseDuck2 = new GooseAdapter(new Goose()); // goose is not counted
 
 // console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
 
@@ -147,12 +147,12 @@ class CountingDuckFactory extends AbstractDuckFactory {
 }
 
 // Duck simulator with factory
-const duckFactory = new CountingDuckFactory();
-const mallardDuck3 = duckFactory.createMallardDuck();
-const redheadDuck3 = duckFactory.createRedheadDuck();
-const duckCall3 = duckFactory.createDuckCall();
-const rubberDuck3 = duckFactory.createRubberDuck();
-const gooseDuck3 = new GooseAdapter(new Goose()); // goose is not counted
+// const duckFactory = new CountingDuckFactory();
+// const mallardDuck3 = duckFactory.createMallardDuck();
+// const redheadDuck3 = duckFactory.createRedheadDuck();
+// const duckCall3 = duckFactory.createDuckCall();
+// const rubberDuck3 = duckFactory.createRubberDuck();
+// const gooseDuck3 = new GooseAdapter(new Goose()); // goose is not counted
 
 // console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
 
@@ -166,9 +166,9 @@ const gooseDuck3 = new GooseAdapter(new Goose()); // goose is not counted
 
 // 오리 무리를 관리하는 기능 - Composite 패턴
 class Flock implements Quackable {
-  private quackers: Quackable[] = [];
+  private quackers: Quackable2[] = [];
 
-  add(duck: Quackable) {
+  add(duck: Quackable2) {
     this.quackers.push(duck);
   }
 
@@ -182,13 +182,91 @@ class Flock implements Quackable {
       value.quack();
     }
   }
+
+  registerObserver(observer: Observer) {
+    this.quackers.forEach((duck) => duck.registerObserver(observer));
+  }
 }
 
 // Duck simulator with composite
-const flockOfMallards = new Flock();
-flockOfMallards.add(duckFactory.createMallardDuck());
-flockOfMallards.add(duckFactory.createRubberDuck());
+// const flockOfMallards = new Flock();
+// flockOfMallards.add(duckFactory.createMallardDuck());
+// flockOfMallards.add(duckFactory.createRubberDuck());
 
-flockOfMallards.quack();
+// flockOfMallards.quack();
 
-console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
+
+// 14. 오리를 개별로 관찰하기 위해 옵저버 패턴을 사용합니다
+
+interface Observer {
+  update(duck: QuackObservable): void;
+}
+
+interface QuackObservable {
+  registerObserver(observer: Observer): void;
+  notifyObservers(): void;
+}
+
+interface Quackable2 extends QuackObservable {
+  quack(): void;
+}
+
+class Observable implements QuackObservable {
+  private observers: Observer[] = [];
+  duck: QuackObservable;
+
+  constructor(duck: QuackObservable) {
+    this.duck = duck;
+  }
+
+  registerObserver(observer: Observer) {
+    this.observers.push(observer); // 옵저버 등록 코드
+  }
+
+  notifyObservers() {
+    this.observers.forEach((observer) => observer.update(this)); // 연락을 돌리는 코드
+  }
+}
+
+// 16. Observer 보조 객체와 Quackable 클래스를 결합합니다
+class MallardDuck4 implements Quackable {
+  observable: Observable;
+
+  constructor() {
+    this.observable = new Observable(this);
+  }
+
+  quack() {
+    console.log("Quack");
+    this.notifyObservers();
+  }
+
+  registerObserver(observer: Observer) {
+    this.observable.registerObserver(observer);
+  }
+
+  notifyObservers() {
+    this.observable.notifyObservers();
+  }
+}
+
+class Quackologist implements Observer {
+  update(duck: QuackObservable) {
+    console.log("Quackologist: ", duck);
+  }
+}
+
+// Duck simulator with observe
+// const flockOfDuck = new Flock();
+// const duckFactory = new CountingDuckFactory();
+// flockOfDuck.add(duckFactory.createMallardDuck());
+// flockOfDuck.add(duckFactory.createRubberDuck());
+
+// flockOfDuck.quack();
+
+// const quackologist = new Quackologist();
+
+// flockOfDuck.registerObserver(quackologist);
+
+// console.log("QuackCounter.numberOfQuacks: ", QuackCounter.numberOfQuacks);
