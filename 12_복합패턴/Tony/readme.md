@@ -254,3 +254,491 @@
       - 컨트롤러는 제어로직을 뷰로부터 분리해서 뷰와 모델의 결합을 끊어 주는 역할을 합니다
       - 뷰와 컨트롤러를 느슨하게 결합하면 더 유연하고 확장하기 좋은 디자인을 만들 수 있죠
       - 결국 나중에 뭔가를 바꿔야 할 때도 더 쉽게 바꿀 수 있고요
+
+## 모델-뷰-컨트롤러에 사용되는 패턴 알아보기 - 560p ~ 561p
+
+- MVC를 이해하는 가장 좋은 방법은 MVC를 여러개의 패턴이 함께 적용되어서 완성된 하나의 디자인으로 생각하기입니다
+- 모델
+  - 옵저버 패턴을 써서 상태가 바뀔 때마다 뷰와 컨트롤러에게 연락합니다
+- 뷰와 컨트롤러는 전략 패턴을 사용하죠
+- 컨트롤러는 뷰의 행동에 해당하며, 다른 행동이 필요하면 그냥 다른 컨트롤러로 바뀌면 됩니다
+- 그리고 뷰 안에는 내부적으로 컴포지트 패턴을 써서 윈도우, 버튼 같은 다양한 구성요소를 관리합니다
+
+### 전략 패턴
+
+- 뷰와 컨트롤러는 고전적인 전략패턴으로 구현되어 있습니다
+- 뷰 객체를 여러 전략을 써서 설정할 수 있죠
+- 컨트롤러가 전략을 제공하고요
+- 뷰는 애플리케이션의 겉모습에만 신경을 쓰고, 인터페이스의 행동을 결정하는 일은 모두 컨트롤러에게 맡깁니다
+- 전략 패턴을 사용하면 뷰를 모델로부터 분리하는 데에도 도움이 됩니다
+- 사용자가 요청한 내역을 처리하려고 모델과 얘기하는 일을 컨트롤러가 맡고 있으니까요
+- 뷰는 그 방법을 전혀 알지 못합니다
+
+### 컴포지트 패턴
+
+- `디스플레이`는 여러 단계로 겹쳐 있는 `윈도우, 패널, 버튼, 텍스트 테이블 등`으로 구성됩니다
+- 각 `디스플레이` 항목은 `복합객체(윈도우 등)` 나 `잎(버튼)`이 될 수 있습니다
+- `컨트롤러`가 `뷰`에게 `화면을 갱신`해 달라고 요청하면 최상위 뷰 구성 요소에게만 화면을 갱신하라고 얘기하면 됩니다
+  - 나머지는 컴포지트 패턴이 알아서 처리해 주죠
+
+### 옵저버 패턴
+
+- `모델`은 `옵저버 패턴`을 써서 상태가 변경되었을 때 그 모델과 연관된 객체들에게 연락합니다
+- `옵저버 패턴`을 사용하면 `모델을` `뷰와 컨트롤러로부터 완전히 독립`시킬 수 있습니다
+- 한 모델에서 서로 다른 뷰를 사용할 수도 있고, 심지어 여러 개의 뷰를 동시에 사용하는 것도 가능합니다
+
+## 모델-뷰-컨트롤러로 BPM 제어 도구 만들기
+
+- 기획
+  - 막대가 튀면서 실시간 BPM을 보여줍니다
+  - 현재 BPM이 표시되면 BPM이 바뀌면 표시된 내용도 자동으로 바뀝니다
+  - 이 뷰는 모델의 상태를 보여주는과 제어하는 부분 이렇게 2개의 부분으로 구성됩니다
+  - BPM을 1을 늘리는 버튼, 줄이는 버튼이 있습니다
+  - BPM을 직접 입력할 수 있는 텍스트 필드가 있습니다
+  - DJ Control 메뉴에서 start를 선택하면 연주를 시작할 수 있습니다
+  - start를 선택해서 연주를 시작하기 전까지는 stop을 선택할 수 없ㅅ브니다
+  - stop 을 선택해서 연주를 중지할 수 있습니다
+  - 연주가 시작되면 start는 선택할 수 없습니다
+  - 모든 사용자의 행동은 컨트롤러로 전달됩니다
+  - 모델과 뷰 사이의 컨트롤러
+  - 컨트롤러느 뷰와 모델 사잉에 있습니다
+  - 사용자가 start를 선택하면 그 입력을 모델이 해야 하는 적절한 행동으로 바꾸는 작업을 처리합니다
+  - 컨트롤러는 사용자로부터 받은 입력을 바탕으로 모델에게 적절한 요청을 전달합니다
+  - 그 뒤에 떡하니 버티고 있는 모델
+    - 모델을 직접 볼 순 없겠지만, 적어도 들을 수는 있습니다
+    - 모델은 일찌감치 뒤에서 비트를 조절하고 스피커로 내보내는 작업을 처리합니다
+
+## 모델, 뷰, 컨트롤러 합쳐서 보기
+
+## 모델, 뷰, 컨트롤러 만들기
+
+```java
+
+public interface BeatModelInterface {
+    void initialize(); // BeatMode의 인스턴스가 만들어 질 때 호출되는 메소드
+    void on(); // 비트 생성기를 켜고 끄는 메소드
+    void off(); // 비트 생성기를 켜고 끄는 메소드
+    void setBPM(int bpm);// BPM을 설정하는 메소드, 이 메소드가 호출되면 BPM이 바로 바뀝니다
+    int getBPM(); // 현재 BPM을 반환하는 메소드, 꺼져있으면 0을 리턴합니다
+    // 뷰와 컨트롤러가 상태를 알아내거나 옵저버로 등록할 때 사용하는 메소드 - 시작
+    void registerObserver(BeatObserver o); // 연락받을 옵저버와 BPM이 바뀔 때만 연락받을 옵저버, 이렇게 두개의 옵저버를 비트마다 만듭니다
+    void removeObserver(BeatObserver o); // 옵저버 등록/해제용 메소드
+    void registerObserver(BPMObserver o);
+    void removeObserver(BPMObserver o);
+    // 뷰와 컨트롤러가 상태를 알아내거나 옵저버로 등록할 때 사용하는 메소드 - 끝
+}
+
+```
+
+## 모델 만들기
+
+```java
+package headfirst.designpatterns.combined.djview;
+
+import java.util.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.*;
+import javax.sound.sampled.Line;
+
+public class BeatModel implements BeatModelInterface, Runnable {
+	List<BeatObserver> beatObservers = new ArrayList<BeatObserver>();
+	List<BPMObserver> bpmObservers = new ArrayList<BPMObserver>();
+	int bpm = 90;
+	Thread thread;
+	boolean stop = false; // 비트 스레드를 시작하고 멈춥니다
+	Clip clip; // 비트용으로 재생하는 오디오 클립
+
+	public void initialize() {
+		try {
+			File resource = new File("clap.wav");
+			clip = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+			clip.open(AudioSystem.getAudioInputStream(resource));
+		}
+		catch(Exception ex) {
+			System.out.println("Error: Can't load clip");
+			System.out.println(ex);
+		}
+	}
+
+	public void on() {
+		bpm = 90;
+		//notifyBPMObservers();
+		thread = new Thread(this);
+		stop = false;
+		thread.start();
+	}
+
+	public void off() {
+		stopBeat();
+		stop = true;
+	}
+
+	public void run() {
+		while (!stop) {
+			playBeat();
+			notifyBeatObservers();
+			try {
+				Thread.sleep(60000/getBPM());
+			} catch (Exception e) {}
+		}
+	}
+
+	public void setBPM(int bpm) {
+		this.bpm = bpm;
+		notifyBPMObservers();
+	}
+
+	public int getBPM() {
+		return bpm;
+	}
+
+	public void registerObserver(BeatObserver o) {
+		beatObservers.add(o);
+	}
+
+	public void notifyBeatObservers() {
+		for(int i = 0; i < beatObservers.size(); i++) {
+			BeatObserver observer = (BeatObserver)beatObservers.get(i);
+			observer.updateBeat();
+		}
+	}
+
+	public void registerObserver(BPMObserver o) {
+		bpmObservers.add(o);
+	}
+
+	public void notifyBPMObservers() {
+		for(int i = 0; i < bpmObservers.size(); i++) {
+			BPMObserver observer = (BPMObserver)bpmObservers.get(i);
+			observer.updateBPM();
+		}
+	}
+
+	public void removeObserver(BeatObserver o) {
+		int i = beatObservers.indexOf(o);
+		if (i >= 0) {
+			beatObservers.remove(i);
+		}
+	}
+
+	public void removeObserver(BPMObserver o) {
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			bpmObservers.remove(i);
+		}
+	}
+
+	public void playBeat() {
+		clip.setFramePosition(0);
+		clip.start();
+	}
+	public void stopBeat() {
+		clip.setFramePosition(0);
+		clip.stop();
+	}
+
+}
+```
+
+## 뷰 알아보기
+
+- 2개의 뷰
+  - BPM마다 통통 튀는 모습을 보여주는 막대
+  - 제어용 인터페이스
+
+## 뷰 만들기
+
+```java
+package headfirst.designpatterns.combined.djview;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class DJView implements ActionListener,  BeatObserver, BPMObserver {
+	BeatModelInterface model; // 뷰에는 모델과 컨트롤러 레퍼런스가 들어 있습니다
+	ControllerInterface controller; // 컨트롤러의 레퍼런스는 제어용 인터페이스 코드에서만 쓰입니다
+  JFrame viewFrame;
+  JPanel viewPanel;
+	BeatBar beatBar;
+	JLabel bpmOutputLabel;
+  JFrame controlFrame;
+  JPanel controlPanel;
+  JLabel bpmLabel;
+  JTextField bpmTextField;
+  JButton setBPMButton;
+  JButton increaseBPMButton;
+  JButton decreaseBPMButton;
+  JMenuBar menuBar;
+  JMenu menu;
+  JMenuItem startMenuItem;
+  JMenuItem stopMenuItem;
+
+  public DJView(ControllerInterface controller, BeatModelInterface model) {
+		this.controller = controller;
+		this.model = model;
+		model.registerObserver((BeatObserver)this);
+		model.registerObserver((BPMObserver)this);
+  }
+
+  public void createView() {
+		// Create all Swing components here
+    viewPanel = new JPanel(new GridLayout(1, 2));
+    viewFrame = new JFrame("View");
+    viewFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    viewFrame.setSize(new Dimension(100, 80));
+    bpmOutputLabel = new JLabel("offline", SwingConstants.CENTER);
+		beatBar = new BeatBar();
+		beatBar.setValue(0);
+    JPanel bpmPanel = new JPanel(new GridLayout(2, 1));
+		bpmPanel.add(beatBar);
+    bpmPanel.add(bpmOutputLabel);
+    viewPanel.add(bpmPanel);
+    viewFrame.getContentPane().add(viewPanel, BorderLayout.CENTER);
+    viewFrame.pack();
+    viewFrame.setVisible(true);
+	}
+
+
+  public void createControls() {
+		// Create all Swing components here
+    JFrame.setDefaultLookAndFeelDecorated(true);
+    controlFrame = new JFrame("Control");
+    controlFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    controlFrame.setSize(new Dimension(100, 80));
+
+    controlPanel = new JPanel(new GridLayout(1, 2));
+
+    menuBar = new JMenuBar();
+    menu = new JMenu("DJ Control");
+    startMenuItem = new JMenuItem("Start");
+    menu.add(startMenuItem);
+    startMenuItem.addActionListener((event) -> controller.start());
+    // was....
+    /*
+    startMenuItem.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+            controller.start();
+        }
+    });
+    */
+    stopMenuItem = new JMenuItem("Stop");
+    menu.add(stopMenuItem);
+    stopMenuItem.addActionListener((event) -> controller.stop());
+    // was...
+    /*
+    stopMenuItem.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+            controller.stop();
+        }
+    });
+    */
+    JMenuItem exit = new JMenuItem("Quit");
+    exit.addActionListener((event) -> System.exit(0));
+    // was...
+    /*
+    exit.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+            System.exit(0);
+        }
+    });
+    */
+
+    menu.add(exit);
+    menuBar.add(menu);
+    controlFrame.setJMenuBar(menuBar);
+
+    bpmTextField = new JTextField(2);
+    bpmLabel = new JLabel("Enter BPM:", SwingConstants.RIGHT);
+    setBPMButton = new JButton("Set");
+    setBPMButton.setSize(new Dimension(10,40));
+    increaseBPMButton = new JButton(">>");
+    decreaseBPMButton = new JButton("<<");
+    setBPMButton.addActionListener(this);
+    increaseBPMButton.addActionListener(this);
+    decreaseBPMButton.addActionListener(this);
+
+    JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+
+		buttonPanel.add(decreaseBPMButton);
+		buttonPanel.add(increaseBPMButton);
+
+    JPanel enterPanel = new JPanel(new GridLayout(1, 2));
+    enterPanel.add(bpmLabel);
+    enterPanel.add(bpmTextField);
+    JPanel insideControlPanel = new JPanel(new GridLayout(3, 1));
+    insideControlPanel.add(enterPanel);
+    insideControlPanel.add(setBPMButton);
+    insideControlPanel.add(buttonPanel);
+    controlPanel.add(insideControlPanel);
+
+    bpmLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+    bpmOutputLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
+    controlFrame.getRootPane().setDefaultButton(setBPMButton);
+    controlFrame.getContentPane().add(controlPanel, BorderLayout.CENTER);
+
+    controlFrame.pack();
+    controlFrame.setVisible(true);
+  }
+
+	public void enableStopMenuItem() {
+    	stopMenuItem.setEnabled(true);
+	}
+
+	public void disableStopMenuItem() {
+    	stopMenuItem.setEnabled(false);
+	}
+
+	public void enableStartMenuItem() {
+    	startMenuItem.setEnabled(true);
+	}
+
+	public void disableStartMenuItem() {
+    	startMenuItem.setEnabled(false);
+	}
+
+  /**
+   * 사용자가 버튼을 클릭했을 때 호출되는 메소드
+   */
+  public void actionPerformed(ActionEvent event) {
+		if (event.getSource() == setBPMButton) {
+			int bpm = 90;
+			String bpmText = bpmTextField.getText();
+      if (bpmText == null || bpmText.contentEquals("")) {
+          bpm = 90;
+      } else {
+          bpm = Integer.parseInt(bpmTextField.getText());
+      }
+      controller.setBPM(bpm);
+		} else if (event.getSource() == increaseBPMButton) {
+			controller.increaseBPM();
+		} else if (event.getSource() == decreaseBPMButton) {
+			controller.decreaseBPM();
+		}
+  }
+
+	public void updateBPM() { // 모델의 상태가 변경되면 updateBPM() 메소드가 호출됩니다
+		if (model != null) {
+			int bpm = model.getBPM();
+			if (bpm == 0) {
+				if (bpmOutputLabel != null) {
+        			bpmOutputLabel.setText("offline");
+				}
+			} else {
+				if (bpmOutputLabel != null) {
+        			bpmOutputLabel.setText("Current BPM: " + model.getBPM());
+				}
+			}
+		}
+	}
+
+	public void updateBeat() {
+		if (beatBar != null) {
+			 beatBar.setValue(100);
+		}
+	}
+}
+
+```
+
+## 컨트롤러 만들기
+
+- 컨트롤러는 뷰에서 쓰이는 전략
+- 전략 패턴을 구현하려면 DJ뷰에 넣을 전략 객체의 인터페이스를 먼저 만들어야 합니다
+
+```java
+
+public interface ControllerInterface {
+  void start();
+  void stop();
+  void increaseBPM();
+  void decreaseBPM();
+  void setBPM(int bpm);
+}
+
+```
+
+## 컨트롤러 코드 살펴보기
+
+```java
+package headfirst.designpatterns.combined.djview;
+
+public class BeatController implements ControllerInterface {
+	BeatModelInterface model;
+	DJView view;
+
+	public BeatController(BeatModelInterface model) {
+		this.model = model; // 컨트롤러의 생성자에는 모델이 인자로 전달되며,
+		view = new DJView(this, model); // 생성자에서 뷰도 생성해야 합니다
+    view.createView();
+    view.createControls();
+		view.disableStopMenuItem();
+		view.enableStartMenuItem();
+		model.initialize();
+	}
+
+	public void start() {
+		model.on();
+		view.disableStartMenuItem();
+		view.enableStopMenuItem();
+	}
+
+	public void stop() {
+		model.off();
+		view.disableStopMenuItem();
+		view.enableStartMenuItem();
+	}
+
+	public void increaseBPM() {
+        int bpm = model.getBPM();
+        model.setBPM(bpm + 1);
+	}
+
+	public void decreaseBPM() {
+        int bpm = model.getBPM();
+        model.setBPM(bpm - 1);
+  	}
+
+ 	public void setBPM(int bpm) {
+		model.setBPM(bpm);
+	}
+}
+
+```
+
+- 컨트롤러는 뷰와 연관된 결정을 내리는 역할도 맡습니다
+  - 뷰는 메뉴 항목을 활성 또는 비활성 상태로 바꾸는 방법만 알고 있을 뿐,
+  - 어떤 상황에서 활성화하거나 비활성화해야 할지 결정을 내리는 기능은 없습니다
+
+## 모델, 뷰, 컨트롤러 코드 합치기
+
+```java
+
+public class DJTestDrive {
+  public static void main (String[] args) {
+    BeatModelInterface model = new BeatModel(); // 우선 모델을 생성합니다
+    ControllerInterface controller = new BeatController(model); // 그리고 컨트롤러를 생성할 때 모델을 인자로 전달합니다
+  }
+}
+
+```
+
+### 해야할 일
+
+1. 메뉴에서 Start를 선택해서 비트 연주를 시작합시다.
+   - 일단 연주가 시작되면 Start는 비활성 상태로 바뀝니다
+2. BPM을 직접 입력하거나 >>, << 버튼을 클릭해서 BPM을 바꿔봅시다.
+   - View창과 Control 창은 논리적으로 전혀 연결되어 있지 않지만 Control 창에서 어떤 내용을 바꾸면 바로 View 창의 내용도 바뀝니다
+3. 비트 막대가 항상 비트에 맞게 움직인다는 점도 눈여겨 봅시다
+   - 모델의 옵저버로 만들었으니까 그럴 수 있는 거겠죠?
+4. 여러분이 제일 좋아하는 곡을 틀어 놓고, BPM이 얼마인지 맞춰 봅시다.
+   - `>>`와 `<<` 버튼을 클릭하다 보면 비트를 맞출 수 있겠죠?
+5. 비트 생성지를 중지해 봅시다.
+   - Stop을 선택하고 나면 Stop은 비활성 상태로 바뀌고 Start가 다시 활성화 됩니다
+
+## MVC 속 전략 패턴 자세히 알아보기
+
+- MVC에서 종종 쓰이는 어댑터 패턴도 만나게 됩니다
+  - BPM 막대 움직임 대신 심장 박동을 보여주는 용도로 쓸 수도 있겠죠?
